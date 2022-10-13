@@ -4,6 +4,7 @@ import pet.by.ishangulyev.videoapi.exception.VideoException;
 
 public interface VideoService<E,D> {
     E findByID(String id) throws VideoException;
+    D findModelByID(String id) throws VideoException;
     boolean isEntityExist(String id);
     void delete(String id) throws VideoException;
 }
