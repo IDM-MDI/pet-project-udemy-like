@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 
 @Builder
 @Data
@@ -17,5 +16,4 @@ public class VideoModel {
     private byte[] file;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String videoFileID;
-    private LocalDateTime uploadDate;
 }

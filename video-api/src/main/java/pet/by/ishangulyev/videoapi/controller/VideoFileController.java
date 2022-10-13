@@ -15,19 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import pet.by.ishangulyev.videoapi.entity.Video;
 import pet.by.ishangulyev.videoapi.exception.VideoException;
-import pet.by.ishangulyev.videoapi.service.VideoFileService;
+import pet.by.ishangulyev.videoapi.service.impl.VideoInfoService;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/v1/video/file")
 public class VideoFileController {
 
-    private final VideoFileService service;
+    private final VideoInfoService service;
 
     @Autowired
-    public VideoFileController(VideoFileService service) {
+    public VideoFileController(VideoInfoService service) {
         this.service = service;
     }
 
@@ -38,8 +37,10 @@ public class VideoFileController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> saveVideoFile(@RequestParam("file") MultipartFile file) throws VideoException {
-        return ResponseEntity.ok(service.save(file));
+    public ResponseEntity<String> saveVideoFile(@RequestParam("file") MultipartFile file,
+                                                @RequestParam("name") String name) throws VideoException {
+        service.save(name,file);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/{id}")

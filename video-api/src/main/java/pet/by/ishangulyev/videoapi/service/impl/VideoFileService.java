@@ -1,63 +1,55 @@
-package pet.by.ishangulyev.videoapi.service;
+package pet.by.ishangulyev.videoapi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pet.by.ishangulyev.videoapi.entity.VideoFile;
 import pet.by.ishangulyev.videoapi.exception.VideoException;
+import pet.by.ishangulyev.videoapi.model.VideoFileModel;
 import pet.by.ishangulyev.videoapi.repository.VideoFileRepository;
-import reactor.core.publisher.Mono;
+import pet.by.ishangulyev.videoapi.service.VideoService;
+import pet.by.ishangulyev.videoapi.util.impl.VideoFileModelMapper;
 
 import java.io.IOException;
 
-import static pet.by.ishangulyev.videoapi.exception.VideoExceptionCode.ERROR_UNPACKING_FILE;
 import static pet.by.ishangulyev.videoapi.exception.VideoExceptionCode.FILE_NOT_EXIST;
 import static pet.by.ishangulyev.videoapi.exception.VideoExceptionCode.FILE_NOT_VIDEO;
 import static pet.by.ishangulyev.videoapi.exception.VideoExceptionCode.NOTHING_FIND_BY_ID;
 import static pet.by.ishangulyev.videoapi.validator.VideoValidator.isFileValid;
 
 @Service
-public class VideoFileService {
+public class VideoFileService implements VideoService<VideoFile, VideoFileModel> {
     private final VideoFileRepository videoFileRepository;
+    private final VideoFileModelMapper mapper;
 
     @Autowired
-    public VideoFileService(VideoFileRepository videoFileRepository) {
+    public VideoFileService(VideoFileRepository videoFileRepository, VideoFileModelMapper mapper) {
         this.videoFileRepository = videoFileRepository;
+        this.mapper = mapper;
     }
 
+    @Override
     public VideoFile findByID(String id) throws VideoException {
         return videoFileRepository.findById(id)
                 .orElseThrow(() -> new VideoException(NOTHING_FIND_BY_ID.toString()));
     }
 
-    public boolean isFileExist(String id) {
+    @Override
+    public boolean isEntityExist(String id) {
         return videoFileRepository.existsById(id);
     }
-
+    @Override
     public void delete(String id) throws VideoException {
-        if(!isFileExist(id)) {
+        if(!isEntityExist(id)) {
             throw new VideoException(FILE_NOT_EXIST.toString());
         }
         videoFileRepository.deleteById(id);
     }
 
-    public String save(MultipartFile file) throws VideoException {
+    public VideoFile save(MultipartFile file) throws VideoException, IOException {
         if(!isFileValid(file)) {
             throw new VideoException(FILE_NOT_VIDEO.toString());
         }
-        try {
-            return videoFileRepository.save(VideoFile.builder()
-                    .file(file.getBytes())
-                    .build())
-                    .getId();
-        } catch (IOException exception) {
-            throw new VideoException(ERROR_UNPACKING_FILE.toString());
-        }
-    }
-
-
-    public Mono<ByteArrayResource> streamByID(String id) throws VideoException {
-        return Mono.just(new ByteArrayResource(findByID(id).getFile()));
+        return videoFileRepository.save(VideoFile.builder().file(file.getBytes()).build());
     }
 }
