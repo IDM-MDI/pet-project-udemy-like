@@ -1,12 +1,14 @@
 package pet.by.ishangulyev.videoapi.util.impl;
 
+import org.springframework.stereotype.Component;
 import pet.by.ishangulyev.videoapi.entity.VideoFile;
 import pet.by.ishangulyev.videoapi.model.VideoFileModel;
 import pet.by.ishangulyev.videoapi.util.ModelMapper;
 
 import java.util.List;
 
-public class VideoFileModelMapper implements ModelMapper<VideoFile, VideoFileModel> {
+@Component
+public class VideoFileMapper implements ModelMapper<VideoFile, VideoFileModel> {
     @Override
     public VideoFile toEntity(VideoFileModel dto) {
         return dto == null ? null : VideoFile.builder()

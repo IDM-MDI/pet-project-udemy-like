@@ -1,6 +1,6 @@
 package pet.by.ishangulyev.videoapi.util.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pet.by.ishangulyev.videoapi.entity.Video;
 import pet.by.ishangulyev.videoapi.entity.VideoFile;
 import pet.by.ishangulyev.videoapi.model.VideoModel;
@@ -8,14 +8,17 @@ import pet.by.ishangulyev.videoapi.util.ModelMapper;
 
 import java.util.List;
 
+@Component
 public class VideoMapper implements ModelMapper<Video, VideoModel> {
-
     @Override
-    public Video toEntity(VideoModel dto) {
-        return dto == null ? null : Video.builder()
-                .id(dto.getId())
-                .name(dto.getName())
+    public Video toEntity(VideoModel model) {
+        return model == null ? null : Video.builder()
+                .id(model.getId())
+                .name(model.getName())
+                .size(model.getSize())
+                .length(model.getLength())
                 .videoFile(VideoFile.builder()
+                        .id(model.getVideoFileID())
                         .build()
                 )
                 .build();
@@ -23,16 +26,22 @@ public class VideoMapper implements ModelMapper<Video, VideoModel> {
 
     @Override
     public VideoModel toDto(Video entity) {
-        return null;
+        return entity == null ? null : VideoModel.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .size(entity.getSize())
+                .length(entity.getLength())
+                .videoFileID(entity.getId())
+                .build();
     }
 
     @Override
-    public List<Video> toEntityList(List<VideoModel> dtoList) {
-        return null;
+    public List<Video> toEntityList(List<VideoModel> modelList) {
+        return modelList.stream().map(this::toEntity).toList();
     }
 
     @Override
     public List<VideoModel> toDtoList(List<Video> entityList) {
-        return null;
+        return entityList.stream().map(this::toDto).toList();
     }
 }

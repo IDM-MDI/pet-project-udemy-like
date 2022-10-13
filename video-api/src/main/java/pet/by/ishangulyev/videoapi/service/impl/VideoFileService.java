@@ -8,9 +8,11 @@ import pet.by.ishangulyev.videoapi.exception.VideoException;
 import pet.by.ishangulyev.videoapi.model.VideoFileModel;
 import pet.by.ishangulyev.videoapi.repository.VideoFileRepository;
 import pet.by.ishangulyev.videoapi.service.VideoService;
-import pet.by.ishangulyev.videoapi.util.impl.VideoFileModelMapper;
+import pet.by.ishangulyev.videoapi.util.impl.VideoFileMapper;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import static pet.by.ishangulyev.videoapi.exception.VideoExceptionCode.FILE_NOT_EXIST;
 import static pet.by.ishangulyev.videoapi.exception.VideoExceptionCode.FILE_NOT_VIDEO;
@@ -20,10 +22,10 @@ import static pet.by.ishangulyev.videoapi.validator.VideoValidator.isFileValid;
 @Service
 public class VideoFileService implements VideoService<VideoFile, VideoFileModel> {
     private final VideoFileRepository videoFileRepository;
-    private final VideoFileModelMapper mapper;
+    private final VideoFileMapper mapper;
 
     @Autowired
-    public VideoFileService(VideoFileRepository videoFileRepository, VideoFileModelMapper mapper) {
+    public VideoFileService(VideoFileRepository videoFileRepository, VideoFileMapper mapper) {
         this.videoFileRepository = videoFileRepository;
         this.mapper = mapper;
     }
@@ -32,6 +34,11 @@ public class VideoFileService implements VideoService<VideoFile, VideoFileModel>
     public VideoFile findByID(String id) throws VideoException {
         return videoFileRepository.findById(id)
                 .orElseThrow(() -> new VideoException(NOTHING_FIND_BY_ID.toString()));
+    }
+
+    @Override
+    public VideoFileModel findModelByID(String id) throws VideoException {
+        return mapper.toDto(findByID(id));
     }
 
     @Override
@@ -46,10 +53,12 @@ public class VideoFileService implements VideoService<VideoFile, VideoFileModel>
         videoFileRepository.deleteById(id);
     }
 
-    public VideoFile save(MultipartFile file) throws VideoException, IOException {
+    public VideoFile save(File file) throws VideoException, IOException {
         if(!isFileValid(file)) {
             throw new VideoException(FILE_NOT_VIDEO.toString());
         }
-        return videoFileRepository.save(VideoFile.builder().file(file.getBytes()).build());
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        file.delete();
+        return videoFileRepository.save(VideoFile.builder().file(bytes).build());
     }
 }

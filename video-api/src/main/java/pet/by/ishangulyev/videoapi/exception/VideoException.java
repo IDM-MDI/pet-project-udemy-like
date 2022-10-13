@@ -1,10 +1,6 @@
 package pet.by.ishangulyev.videoapi.exception;
 
 public class VideoException extends Exception {
-    public VideoException() {
-        super();
-    }
-
     public VideoException(String message) {
         super(message);
     }

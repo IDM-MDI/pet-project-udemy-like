@@ -18,6 +18,6 @@ public class Video {
     @DocumentReference(collection = "videoFiles")
     private VideoFile videoFile;
     private long length;
-    private long size;
+    private double size;
     private LocalDateTime uploadDate;
 }
