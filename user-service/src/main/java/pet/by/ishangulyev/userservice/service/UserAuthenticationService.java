@@ -25,17 +25,20 @@ public class UserAuthenticationService {
         this.mapper = mapper;
     }
 
+    public void update(String id, UserAuthenticationModel model) {
+    }
     public boolean isEntityExistByID(String id) {
         return repository.existsById(id);
     }
+
     public boolean isEntityExistByLogin(String login) {
         return repository.existsByLogin(login);
     }
-
     public UserAuthentication save(UserAuthenticationModel authentication) throws UserException {
         authVerificationDuringRegistration(authentication);
         return repository.save(mapper.toEntity(authentication));
     }
+
     private void authVerificationDuringRegistration(UserAuthenticationModel authentication) throws UserException {
         if(!isAuthenticationValid(authentication)) {
             throw new UserException(USER_NOT_VALID.toString());
