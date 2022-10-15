@@ -2,7 +2,6 @@ package pet.by.ishangulyev.videoapi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import pet.by.ishangulyev.videoapi.entity.VideoFile;
 import pet.by.ishangulyev.videoapi.exception.VideoException;
 import pet.by.ishangulyev.videoapi.model.VideoFileModel;
@@ -38,7 +37,7 @@ public class VideoFileService implements VideoService<VideoFile, VideoFileModel>
 
     @Override
     public VideoFileModel findModelByID(String id) throws VideoException {
-        return mapper.toDto(findByID(id));
+        return mapper.toModel(findByID(id));
     }
 
     @Override

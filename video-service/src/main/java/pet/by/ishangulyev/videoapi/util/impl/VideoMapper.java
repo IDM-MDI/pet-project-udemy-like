@@ -25,13 +25,13 @@ public class VideoMapper implements ModelMapper<Video, VideoModel> {
     }
 
     @Override
-    public VideoModel toDto(Video entity) {
+    public VideoModel toModel(Video entity) {
         return entity == null ? null : VideoModel.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .size(entity.getSize())
                 .length(entity.getLength())
-                .videoFileID(entity.getId())
+                .videoFileID(entity.getVideoFile().getId())
                 .build();
     }
 
@@ -41,7 +41,7 @@ public class VideoMapper implements ModelMapper<Video, VideoModel> {
     }
 
     @Override
-    public List<VideoModel> toDtoList(List<Video> entityList) {
-        return entityList.stream().map(this::toDto).toList();
+    public List<VideoModel> toModelList(List<Video> entityList) {
+        return entityList.stream().map(this::toModel).toList();
     }
 }

@@ -6,10 +6,11 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication(scanBasePackages = "pet.by.ishangulyev")
 @EnableEurekaClient
-public class VideoApiApplication {
+public class VideoServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(VideoApiApplication.class, args);
+        System.setProperty("spring.config.name","application-video-service");
+        SpringApplication.run(VideoServiceApplication.class, args);
     }
 
 }

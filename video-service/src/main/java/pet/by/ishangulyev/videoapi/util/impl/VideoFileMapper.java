@@ -18,7 +18,7 @@ public class VideoFileMapper implements ModelMapper<VideoFile, VideoFileModel> {
     }
 
     @Override
-    public VideoFileModel toDto(VideoFile entity) {
+    public VideoFileModel toModel(VideoFile entity) {
         return entity == null ? null : VideoFileModel.builder()
                 .id(entity.getId())
                 .file(entity.getFile())
@@ -31,7 +31,7 @@ public class VideoFileMapper implements ModelMapper<VideoFile, VideoFileModel> {
     }
 
     @Override
-    public List<VideoFileModel> toDtoList(List<VideoFile> entityList) {
-        return entityList.stream().map(this::toDto).toList();
+    public List<VideoFileModel> toModelList(List<VideoFile> entityList) {
+        return entityList.stream().map(this::toModel).toList();
     }
 }

@@ -46,7 +46,7 @@ public class VideoInfoService implements VideoService<Video, VideoModel> {
 
     @Override
     public VideoModel findModelByID(String id) throws VideoException {
-        return mapper.toDto(findByID(id));
+        return mapper.toModel(findByID(id));
     }
 
     @Override
