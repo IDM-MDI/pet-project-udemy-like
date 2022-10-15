@@ -55,6 +55,7 @@ public class VideoInfoService implements VideoService<Video, VideoModel> {
     }
 
     @Override
+    @Transactional
     public void delete(String id) throws VideoException {
         if(!isEntityExist(id)) {
             throw new VideoException(FILE_NOT_EXIST.toString());

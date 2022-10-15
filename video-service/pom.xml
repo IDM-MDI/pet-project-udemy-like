@@ -10,11 +10,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <artifactId>video-service</artifactId>
+    <version>1.0</version>
+    <name>video-service</name>
     <groupId>pet.by.ishangulyev</groupId>
-    <artifactId>video-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>video-api</name>
-    <description>video-api</description>
+    <description>video-service</description>
 
     <properties>
         <java.version>19</java.version>
