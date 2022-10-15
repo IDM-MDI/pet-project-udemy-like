@@ -9,12 +9,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="api-gateway" />
         <module name="video-api" />
-        <module name="user-service" />
         <module name="eureka-server" />
+        <module name="video-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="video-service" target="18" />
+      <module name="user-service" target="19" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
