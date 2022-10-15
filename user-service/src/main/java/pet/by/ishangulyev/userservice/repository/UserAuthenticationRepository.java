@@ -6,4 +6,5 @@ import pet.by.ishangulyev.userservice.entity.UserAuthentication;
 
 @Repository
 public interface UserAuthenticationRepository extends MongoRepository<UserAuthentication,String> {
+    boolean existsByLogin(String login);
 }

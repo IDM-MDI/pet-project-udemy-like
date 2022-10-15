@@ -12,18 +12,24 @@ public class ContactInfoMapper implements ModelMapper<ContactInfo, ContactInfoMo
 
     @Override
     public ContactInfo toEntity(ContactInfoModel model) {
-        return model == null ? null : ContactInfo.builder()
-                .email(model.getEmail())
-                .phone(model.getPhone())
-                .build();
+        return model == null ?
+                null
+                :
+                ContactInfo.builder()
+                        .email(model.getEmail())
+                        .phone(model.getPhone())
+                        .build();
     }
 
     @Override
     public ContactInfoModel toModel(ContactInfo entity) {
-        return entity == null ? null : ContactInfoModel.builder()
-                .email(entity.getEmail())
-                .phone(entity.getPhone())
-                .build();
+        return entity == null ?
+                null
+                :
+                ContactInfoModel.builder()
+                        .email(entity.getEmail())
+                        .phone(entity.getPhone())
+                        .build();
     }
 
     @Override
